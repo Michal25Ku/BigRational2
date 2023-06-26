@@ -94,6 +94,12 @@ namespace RationalLib
         public BigRational(BigInteger value) : this(value, 1) { }
         public BigRational() : this(0, 1) { }
 
+        public BigRational(string stringValue) : this(Int32.Parse(stringValue.Split('/')[0]), Int32.Parse(stringValue.Split('/')[1]))
+        {
+            if (!IsCorrectBigRationalString(stringValue))
+                throw new ArgumentOutOfRangeException("Incorrectly specified BigRational type in the form of a string");
+        }
+
         public static bool IsNaN(BigRational b) => b.Numerator == 0 && b.Denominator == 0;
 
         public static bool IsInfinity(BigRational b) => b.Numerator != 0 && b.Denominator == 0;
@@ -113,7 +119,53 @@ namespace RationalLib
             if (IsNegativeInfinity(this) == true)
                 return "NEGATIVE_INFINITY";
 
-            return $"<<{Numerator}>>/<<{Denominator}>>";
+            return $"{Numerator}/{Denominator}";
+        }
+
+        static bool IsCorrectBigRationalString(string rationalString)
+        {
+            string[] stringComponents = rationalString.Split('/');
+
+            if (stringComponents.Length != 2)
+            {
+                return false;
+            }
+
+            if (!stringComponents[0].Any(char.IsNumber))
+            {
+                return false;
+            }
+
+            if (!stringComponents[1].Any(char.IsNumber))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public static BigRational Parse(string rationalString)
+        {
+            string[] stringComponents = rationalString.Split('/');
+
+            if (!IsCorrectBigRationalString(rationalString))
+                throw new ArgumentException("Incorrectly specified BigRational type in the form of a string");
+
+            return new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
+        }
+
+        public static bool TryParse(string rationalString, out BigRational bigRational)
+        {
+            string[] stringComponents = rationalString.Split('/');
+
+            if (!IsCorrectBigRationalString(rationalString))
+            {
+                bigRational = NaN;
+                return false;
+            }
+
+            bigRational = new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
+            return true;
         }
     }
 }

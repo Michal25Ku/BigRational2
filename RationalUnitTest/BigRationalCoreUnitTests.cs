@@ -138,9 +138,9 @@ namespace RationalUnitTest
         }
 
         [DataTestMethod]
-        [DataRow(12, 2, "<<6>>/<<1>>")]
-        [DataRow(1, -3, "<<-1>>/<<3>>")]
-        [DataRow(-1, -3, "<<1>>/<<3>>")]
+        [DataRow(12, 2, "6/1")]
+        [DataRow(1, -3, "-1/3")]
+        [DataRow(-1, -3, "1/3")]
         [DataRow(0, 0, "NaN")]
         [DataRow(-2, 0, "NEGATIVE_INFINITY")]
         [DataRow(4, 0, "POSITIVE_INFINITY")]
@@ -149,6 +149,61 @@ namespace RationalUnitTest
             BigRational test = new BigRational(numerator, denomitaor);
 
             Assert.AreEqual(expected, test.ToString());
+        }
+
+        [DataTestMethod]
+        [DataRow("1/2", 1, 2)]
+        [DataRow("0/0", 0, 0)]
+        [DataRow("4/6", 2, 3)]
+        [DataRow("4/-6", -2, 3)]
+        public void Test_Constructor_String_Parameter(string fraction, int expectedNumerator, int expectedDenominator)
+        {
+            BigRational test = new BigRational(fraction);
+
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
+        }
+
+        [DataTestMethod]
+        [DataRow("0/0/1", "Incorrectly specified BigRational type in the form of a string")]
+        [DataRow("l/1", "Incorrectly specified BigRational type in the form of a string")]
+        [DataRow("1/a", "Incorrectly specified BigRational type in the form of a string")]
+        public void Test_Constructor_String_Parameter_Wrong_String(string fraction, string expected)
+        {
+            BigRational test = new BigRational(fraction);
+
+            Assert.AreEqual(expected, test.Numerator);
+            Assert.AreEqual(expected, test.Denominator);
+        }
+
+        [DataTestMethod]
+        [DataRow("1/2", 1, 2)]
+        [DataRow("0/0", 0, 0)]
+        [DataRow("4/6", 2, 3)]
+        [DataRow("4/-6", -2, 3)]
+        public void Test_Parse(string fraction, int expectedNumerator, int expectedDenominator)
+        {
+            BigRational test = BigRational.Parse(fraction);
+
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
+        }
+
+        [DataTestMethod]
+        [DataRow("1/2", 1, 2)]
+        [DataRow("0/0", 0, 0)]
+        [DataRow("4/6", 2, 3)]
+        [DataRow("4/-6", -2, 3)]
+        [DataRow("l/-6", 0, 0)]
+        [DataRow("4/-6/2", 0, 0)]
+        public void Test_TryParse(string fraction, int expectedNumerator, int expectedDenominator)
+        {
+            BigRational test;
+
+            BigRational.TryParse(fraction, out test);
+
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
         }
     }
 }
