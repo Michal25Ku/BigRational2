@@ -50,6 +50,31 @@ namespace RationalUnitTest
             Assert.AreEqual(1, test.Denominator);
         }
 
+        [DataTestMethod]
+        [DataRow("1/2", 1, 2)]
+        [DataRow("0/0", 0, 0)]
+        [DataRow("4/6", 2, 3)]
+        [DataRow("4/-6", -2, 3)]
+        public void Test_Constructor_String_Parameter(string fraction, int expectedNumerator, int expectedDenominator)
+        {
+            BigRational test = new BigRational(fraction);
+
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
+        }
+
+        [DataTestMethod]
+        [DataRow("0/0/1", "Incorrectly specified BigRational type in the form of a string")]
+        [DataRow("l/1", "Incorrectly specified BigRational type in the form of a string")]
+        [DataRow("1/a", "Incorrectly specified BigRational type in the form of a string")]
+        public void Test_Constructor_String_Parameter_Wrong_String(string fraction, string expected)
+        {
+            BigRational test = new BigRational(fraction);
+
+            Assert.AreEqual(expected, test.Numerator);
+            Assert.AreEqual(expected, test.Denominator);
+        }
+
         [TestMethod]
         public void Test_Constant_Fractions()
         {
@@ -156,31 +181,6 @@ namespace RationalUnitTest
         [DataRow("0/0", 0, 0)]
         [DataRow("4/6", 2, 3)]
         [DataRow("4/-6", -2, 3)]
-        public void Test_Constructor_String_Parameter(string fraction, int expectedNumerator, int expectedDenominator)
-        {
-            BigRational test = new BigRational(fraction);
-
-            Assert.AreEqual(expectedNumerator, test.Numerator);
-            Assert.AreEqual(expectedDenominator, test.Denominator);
-        }
-
-        [DataTestMethod]
-        [DataRow("0/0/1", "Incorrectly specified BigRational type in the form of a string")]
-        [DataRow("l/1", "Incorrectly specified BigRational type in the form of a string")]
-        [DataRow("1/a", "Incorrectly specified BigRational type in the form of a string")]
-        public void Test_Constructor_String_Parameter_Wrong_String(string fraction, string expected)
-        {
-            BigRational test = new BigRational(fraction);
-
-            Assert.AreEqual(expected, test.Numerator);
-            Assert.AreEqual(expected, test.Denominator);
-        }
-
-        [DataTestMethod]
-        [DataRow("1/2", 1, 2)]
-        [DataRow("0/0", 0, 0)]
-        [DataRow("4/6", 2, 3)]
-        [DataRow("4/-6", -2, 3)]
         public void Test_Parse(string fraction, int expectedNumerator, int expectedDenominator)
         {
             BigRational test = BigRational.Parse(fraction);
@@ -204,6 +204,66 @@ namespace RationalUnitTest
 
             Assert.AreEqual(expectedNumerator, test.Numerator);
             Assert.AreEqual(expectedDenominator, test.Denominator);
+        }
+
+        [DataTestMethod]
+        [DataRow(3, 3, 1)]
+        [DataRow(10, 5, 2)]
+        [DataRow(3, 2, 1.5d)]
+        [DataRow(-3, 2, -1.5d)]
+        [DataRow(5, 10, 0.5d)]
+        public void Test_Conversion_To_Double(int numerator, int denominator, double resoult)
+        {
+            BigRational test = new BigRational(numerator, denominator);
+
+            double y = (double)test;
+
+            Assert.AreEqual(resoult, y);
+        }
+
+        [DataTestMethod]
+        [DataRow(3, 3, 1)]
+        [DataRow(10, 5, 2)]
+        [DataRow(3, 2, 1.5f)]
+        [DataRow(-3, 2, -1.5f)]
+        [DataRow(5, 10, 0.5f)]
+        public void Test_Conversion_To_Single(int numerator, int denominator, float resoult)
+        {
+            BigRational test = new BigRational(numerator, denominator);
+
+            double y = (double)test;
+
+            Assert.AreEqual(resoult, y);
+        }
+
+        [DataTestMethod]
+        [DataRow(3, 3, 1)]
+        [DataRow(10, 5, 2)]
+        [DataRow(3, 2, 1.5f)]
+        [DataRow(-3, 2, -1.5f)]
+        [DataRow(5, 10, 0.5f)]
+        public void Test_Conversion_To_Decimal(int numerator, int denominator, decimal resoult)
+        {
+            BigRational test = new BigRational(numerator, denominator);
+
+            decimal y = (decimal)test;
+
+            Assert.AreEqual(resoult, y);
+        }
+
+        [DataTestMethod]
+        [DataRow(3, 3, 1)]
+        [DataRow(10, 5, 2)]
+        [DataRow(3, 2, 1)]
+        [DataRow(-3, 2, -1)]
+        [DataRow(5, 10, 0)]
+        public void Test_Conversion_To_Int(int numerator, int denominator, int resoult)
+        {
+            BigRational test = new BigRational(numerator, denominator);
+
+            int y = (int)test;
+
+            Assert.AreEqual(resoult, y);
         }
     }
 }

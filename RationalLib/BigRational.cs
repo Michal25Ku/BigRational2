@@ -167,5 +167,18 @@ namespace RationalLib
             bigRational = new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
             return true;
         }
+
+        public static explicit operator int(BigRational b) => (int)b.Numerator / (int)b.Denominator;
+        public int ToInt(IFormatProvider? provider) => (int)this;
+
+        public static explicit operator double(BigRational b) => (double)b.Numerator / (double) b.Denominator;
+        public double ToDouble(IFormatProvider? provider) => (double)this;
+
+        public static explicit operator float(BigRational b) => (float)b.Numerator / (float)b.Denominator;
+        public float ToSingle(IFormatProvider? provider) => (float)this;
+
+        public static explicit operator decimal(BigRational b) => (decimal)b.Numerator / (decimal)b.Denominator;
+        public decimal ToDecimal(IFormatProvider? provider) => (decimal)this;
+
     }
 }
