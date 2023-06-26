@@ -22,15 +22,73 @@ namespace RationalLib
             Numerator = numerator;
             Denominator = denominator;
 
-            var gcd = BigInteger.GreatestCommonDivisor(Numerator, Denominator);
-            Numerator /= gcd;
-            Denominator /= gcd;
-
             if (Denominator < 0)
             {
                 Numerator *= -1;
                 Denominator *= -1;
             }
+
+            if (Numerator == 0 && Denominator == 0)
+                return;
+
+            if (Numerator == 0 && Denominator == 1)
+            {
+                (Numerator, Denominator) = (0, 1);
+                return;
+            }
+
+            if (Numerator == 0 && Denominator != 0)
+            {
+                Denominator = 1;
+                return;
+            }
+
+            if (Numerator == 1 && Denominator == 1)
+            {
+                (Numerator, Denominator) = (1, 1);
+                return;
+            }
+
+            if (Numerator == Denominator)
+            {
+                (Numerator, Denominator) = (1, 1);
+                return;
+            }
+
+            if (Numerator == 1 && Denominator == 2)
+            {
+                (Numerator, Denominator) = (1, 2);
+                return;
+            }
+
+            if (2 * Numerator == Denominator)
+            {
+                (Numerator, Denominator) = (1, 2);
+                return;
+            }
+
+            if (Numerator < 0 && Denominator == 0)
+            {
+                (Numerator, Denominator) = (-1, 0);
+                return;
+            }
+
+            if (Numerator > 0 && Denominator == 0)
+            {
+                (Numerator, Denominator) = (1, 0);
+                return;
+            }
+
+            if (Numerator == 1)
+                return;
+
+            if (Denominator == 1)
+                return;
+
+
+            var gcd = BigInteger.GreatestCommonDivisor(Numerator, Denominator);
+            Numerator /= gcd;
+            Denominator /= gcd;
         }
 
         public BigRational(BigInteger value) : this(value, 1) { }
@@ -46,6 +104,16 @@ namespace RationalLib
 
         public static bool IsFinity(BigRational b) => b.Numerator != 0 && b.Denominator != 0;
 
-        public override string ToString() => $"<<{Numerator}>>/<<{Denominator}>>";
+        public override string ToString()
+        {
+            if (IsNaN(this) == true)
+                return "NaN";
+            if (IsPositiveInfinity(this) == true)
+                return "POSITIVE_INFINITY";
+            if (IsNegativeInfinity(this) == true)
+                return "NEGATIVE_INFINITY";
+
+            return $"<<{Numerator}>>/<<{Denominator}>>";
+        }
     }
 }

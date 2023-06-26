@@ -14,8 +14,8 @@ namespace RationalUnitTest
         public void Test_Constructor_SimpleData(int numerator, int denominator, int expectedNumerator, int expectedDenominator)
         {
             BigRational test = new BigRational(numerator, denominator);
-            Assert.AreEqual(test.Numerator, expectedNumerator);
-            Assert.AreEqual(test.Denominator, expectedDenominator);
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
         }
 
         [DataTestMethod]
@@ -27,8 +27,8 @@ namespace RationalUnitTest
         public void Test_Constructor_Reducing_Fractions(int numerator, int denominator, int expectedNumerator, int expectedDenominator)
         {
             BigRational test = new BigRational(numerator, denominator);
-            Assert.AreEqual(test.Numerator, expectedNumerator);
-            Assert.AreEqual(test.Denominator, expectedDenominator);
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
         }
 
         [DataTestMethod]
@@ -38,101 +38,117 @@ namespace RationalUnitTest
         public void Test_Constructor_One_Parameter(int numerator, int expectedNumerator, int expectedDenominator)
         {
             BigRational test = new BigRational(numerator);
-            Assert.AreEqual(test.Numerator, expectedNumerator);
-            Assert.AreEqual(test.Denominator, expectedDenominator);
+            Assert.AreEqual(expectedNumerator, test.Numerator);
+            Assert.AreEqual(expectedDenominator, test.Denominator);
         }
 
         [TestMethod]
         public void Test_Default_Constructor()
         {
             BigRational test = new BigRational();
-            Assert.AreEqual(test.Numerator, 0);
-            Assert.AreEqual(test.Denominator, 1);
+            Assert.AreEqual(0, test.Numerator);
+            Assert.AreEqual(1, test.Denominator);
         }
-
-        //[TestMethod]
-        //public void Test_Constant_Fractions()
-        //{
-        //    BigRational test1 = BigRational.zero;
-        //    BigRational test2 = BigRational.one;
-        //    BigRational test3 = BigRational.half;
-        //    BigRational test4 = BigRational.NaN;
-
-        //    Assert.AreEqual(test1.Numerator, 0);
-        //    Assert.AreEqual(test1.Denominator, 1);
-
-        //    Assert.AreEqual(test2.Numerator, 1);
-        //    Assert.AreEqual(test2.Denominator, 1);
-
-        //    Assert.AreEqual(test3.Numerator, 1);
-        //    Assert.AreEqual(test3.Denominator, 2);
-
-        //    Assert.AreEqual(test4.Numerator, 0);
-        //    Assert.AreEqual(test4.Denominator, 0);
-        //}
 
         [TestMethod]
-        public void Test_BigRational_ToString()
+        public void Test_Constant_Fractions()
         {
-            BigRational test1 = new BigRational(12, 2);
-            BigRational test2 = new BigRational(1, -3);
-            BigRational test3 = new BigRational(-1, -3);
+            BigRational test1 = BigRational.zero;
+            BigRational test2 = BigRational.one;
+            BigRational test3 = BigRational.half;
+            BigRational test4 = BigRational.NaN;
 
-            Assert.AreEqual(test1.ToString(), "<<6>>/<<1>>");
-            Assert.AreEqual(test2.ToString(), "<<-1>>/<<3>>");
-            Assert.AreEqual(test3.ToString(), "<<1>>/<<3>>");
+            Assert.AreEqual(0, test1.Numerator);
+            Assert.AreEqual(1, test1.Denominator);
+
+            Assert.AreEqual(1, test2.Numerator);
+            Assert.AreEqual(1, test2.Denominator);
+
+            Assert.AreEqual(1, test3.Numerator);
+            Assert.AreEqual(2, test3.Denominator);
+
+            Assert.AreEqual(0, test4.Numerator);
+            Assert.AreEqual(0, test4.Denominator);
         }
 
-        //[TestMethod]
-        //public void Test_BigRational_Is_NaN()
-        //{
-        //    BigRational test1 = new BigRational(0, 0);
-        //    BigRational test2 = new BigRational(-1, 0);
+        [TestMethod]
+        public void Test_BigRational_Is_NaN()
+        {
+            BigRational test1 = new BigRational(0, 0);
+            BigRational test2 = new BigRational(-1, 0);
 
-        //    Assert.AreEqual(BigRational.IsNaN(test1), true);
-        //    Assert.AreEqual(BigRational.IsNaN(test2), false);
-        //}
+            Assert.AreEqual(true, BigRational.IsNaN(test1));
+            Assert.AreEqual(false, BigRational.IsNaN(test2));
+        }
 
-        //[TestMethod]
-        //public void Test_BigRational_Is_Infinity()
-        //{
-        //    BigRational test1 = new BigRational(0, 0);
-        //    BigRational test2 = new BigRational(-1, 0);
-        //    BigRational test3 = new BigRational(1, 0);
-        //    BigRational test4 = new BigRational(1, 2);
+        [TestMethod]
+        public void Test_BigRational_Is_Infinity()
+        {
+            BigRational test1 = new BigRational(0, 0);
+            BigRational test2 = new BigRational(-1, 0);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(1, 2);
 
-        //    Assert.AreEqual(BigRational.IsInfinity(test1), false);
-        //    Assert.AreEqual(BigRational.IsInfinity(test2), true);
-        //    Assert.AreEqual(BigRational.IsInfinity(test3), true);
-        //    Assert.AreEqual(BigRational.IsInfinity(test4), false);
-        //}
+            Assert.AreEqual(false, BigRational.IsInfinity(test1));
+            Assert.AreEqual(true, BigRational.IsInfinity(test2));
+            Assert.AreEqual(true, BigRational.IsInfinity(test3));
+            Assert.AreEqual(false, BigRational.IsInfinity(test4));
+        }
 
-        //[TestMethod]
-        //public void Test_BigRational_Is_Positive_Infinity()
-        //{
-        //    BigRational test1 = new BigRational(0, 0);
-        //    BigRational test2 = new BigRational(-1, 0);
-        //    BigRational test3 = new BigRational(1, 0);
-        //    BigRational test4 = new BigRational(1, 2);
+        [TestMethod]
+        public void Test_BigRational_Is_Positive_Infinity()
+        {
+            BigRational test1 = new BigRational(0, 0);
+            BigRational test2 = new BigRational(-1, 0);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(1, 2);
 
-        //    Assert.AreEqual(BigRational.IsPositiveInfinity(test1), false);
-        //    Assert.AreEqual(BigRational.IsPositiveInfinity(test2), false);
-        //    Assert.AreEqual(BigRational.IsPositiveInfinity(test3), true);
-        //    Assert.AreEqual(BigRational.IsPositiveInfinity(test4), false);
-        //}
+            Assert.AreEqual(false, BigRational.IsPositiveInfinity(test1));
+            Assert.AreEqual(false, BigRational.IsPositiveInfinity(test2));
+            Assert.AreEqual(true, BigRational.IsPositiveInfinity(test3));
+            Assert.AreEqual(false, BigRational.IsPositiveInfinity(test4));
+        }
 
-        //[TestMethod]
-        //public void Test_BigRational_Is_Negative_Infinity()
-        //{
-        //    BigRational test1 = new BigRational(0, 0);
-        //    BigRational test2 = new BigRational(-1, 0);
-        //    BigRational test3 = new BigRational(1, 0);
-        //    BigRational test4 = new BigRational(1, 2);
+        [TestMethod]
+        public void Test_BigRational_Is_Negative_Infinity()
+        {
+            BigRational test1 = new BigRational(0, 0);
+            BigRational test2 = new BigRational(-1, 0);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(1, 2);
 
-        //    Assert.AreEqual(BigRational.IsNegativeInfinity(test1), false);
-        //    Assert.AreEqual(BigRational.IsNegativeInfinity(test2), true);
-        //    Assert.AreEqual(BigRational.IsNegativeInfinity(test3), false);
-        //    Assert.AreEqual(BigRational.IsNegativeInfinity(test4), false);
-        //}
+            Assert.AreEqual(false, BigRational.IsNegativeInfinity(test1));
+            Assert.AreEqual(true, BigRational.IsNegativeInfinity(test2));
+            Assert.AreEqual(false, BigRational.IsNegativeInfinity(test3));
+            Assert.AreEqual(false, BigRational.IsNegativeInfinity(test4));
+        }
+
+        [TestMethod]
+        public void Test_BigRational_Is_Finity()
+        {
+            BigRational test1 = new BigRational(0, 0);
+            BigRational test2 = new BigRational(-1, 0);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(1, 2);
+
+            Assert.AreEqual(false, BigRational.IsFinity(test1));
+            Assert.AreEqual(false, BigRational.IsFinity(test2));
+            Assert.AreEqual(false, BigRational.IsFinity(test3));
+            Assert.AreEqual(true, BigRational.IsFinity(test4));
+        }
+
+        [DataTestMethod]
+        [DataRow(12, 2, "<<6>>/<<1>>")]
+        [DataRow(1, -3, "<<-1>>/<<3>>")]
+        [DataRow(-1, -3, "<<1>>/<<3>>")]
+        [DataRow(0, 0, "NaN")]
+        [DataRow(-2, 0, "NEGATIVE_INFINITY")]
+        [DataRow(4, 0, "POSITIVE_INFINITY")]
+        public void Test_BigRational_ToString(int numerator, int denomitaor, string expected)
+        {
+            BigRational test = new BigRational(numerator, denomitaor);
+
+            Assert.AreEqual(expected, test.ToString());
+        }
     }
 }
