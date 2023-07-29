@@ -53,7 +53,7 @@ namespace RationalUnitTest
             BigRational bigRationalA = new BigRational(b1n, b1d);
             BigRational bigRationalB = new BigRational(b2n, b2d);
 
-            Assert.IsTrue(bigRationalA.CompareTo(bigRationalB) < 0);
+            Assert.IsTrue(bigRationalA.CompareTo(bigRationalB) > 0);
         }
 
         [DataTestMethod]

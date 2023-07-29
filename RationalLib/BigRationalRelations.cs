@@ -10,11 +10,26 @@ namespace RationalLib
     {
         public int CompareTo(BigRational other)
         {
-            if(this.Equals(other))
-                return 0;
+            if (this.Equals(other) || (IsNaN(this) && IsNaN(other))) return 0;
 
-            if(this.Numerator != other.Numerator || this.Denominator != other.Denominator)
-                return this.CompareTo((decimal)other);
+            if (IsNaN(this) && !IsNaN(other)) return -1;
+            if (IsNaN(other) && !IsNaN(this)) return 1;
+
+            if (IsPositiveInfinity(this) && IsNegativeInfinity(other)) return 1;
+            if (IsNegativeInfinity(this) && IsPositiveInfinity(other)) return -1;
+
+            if (IsPositiveInfinity(this))
+                return 1;
+            else if (IsPositiveInfinity(other))
+                return -1;
+
+            if (IsNegativeInfinity(this))
+                return -1;
+            else if (IsNegativeInfinity(other))
+                return 1;
+
+            if (this.Numerator != other.Numerator || this.Denominator != other.Denominator)
+                return (this.Numerator * other.Denominator).CompareTo(other.Numerator * this.Denominator);
             else
                 return 0;
         }
@@ -22,12 +37,12 @@ namespace RationalLib
         public int CompareTo(object? obj)
         {
             if(obj is null)
-                return 0;
+                return 1;
 
-            if(obj is BigRational)
-                return CompareTo((BigRational)obj);
+            if (obj is not BigRational)
+                throw new ArgumentException();
 
-            return 0;
+            return this.CompareTo((BigRational)obj);
         }
 
         public static bool operator >(BigRational left, BigRational right)
