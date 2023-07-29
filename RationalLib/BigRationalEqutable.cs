@@ -33,7 +33,7 @@ namespace RationalLib
         public static bool operator !=(BigRational? left, BigRational? right)
             => !(left == right);
 
-        public override int GetHashCode() => (Numerator, Denominator).GetHashCode();
+        public override int GetHashCode() => HashCode.Combine(Numerator, Denominator);
 
         public static bool Equals(BigRational? u1, BigRational? u2) =>
                u1.Equals(u2)

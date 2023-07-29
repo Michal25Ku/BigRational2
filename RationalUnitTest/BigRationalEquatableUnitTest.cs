@@ -48,6 +48,48 @@ namespace RationalUnitTest
         }
 
         [TestMethod]
+        public void Test_IEquatable_Equals_OtherType()
+        {
+            BigRational b = new BigRational();
+            var anonymousTypeVariable = new { x = 0, y = 1 };
+
+            Assert.IsFalse(b.Equals(anonymousTypeVariable));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_Maneuverability_Test()
+        {
+            BigRational b = new BigRational();
+
+            Assert.IsTrue(b.Equals((object)b));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_Symmetry_Test()
+        {
+            BigRational x = new BigRational(1, 2);
+            BigRational y = new BigRational(x.Numerator, x.Denominator);
+
+            Assert.IsTrue(x.Equals(y));
+            Assert.IsTrue(y.Equals(x));
+        }
+
+        [DataTestMethod]
+        [DataRow(1, 2, 1, 2, 1, 2)]
+        [DataRow(1, 2, 2, 4, 3, 6)]
+        [DataRow(-1, 2, 2, -4, -3, 6)]
+        public void Test_IEquatable_Equals_Transitivity_Test(int u1l, int u1m, int u2l, int u2m, int u3l, int u3m)
+        {
+            BigRational x = new(u1l, u1m);
+            BigRational y = new(u2l, u2m);
+            BigRational z = new(u3l, u3m);
+
+            Assert.IsTrue(x.Equals(y));
+            Assert.IsTrue(y.Equals(z));
+            Assert.IsTrue(x.Equals(z));
+        }
+
+        [TestMethod]
         public void Test_IEquatable_Equals_NaN()
         {
             BigRational bigRational1 = BigRational.NaN;
@@ -200,22 +242,6 @@ namespace RationalUnitTest
             Assert.IsFalse(BigRational.Equals(x, null));
             Assert.IsFalse(BigRational.Equals(null, x));
             Assert.IsTrue(BigRational.Equals(null, null));
-        }
-
-        [DataTestMethod]
-        [DataRow(1, 3, 1, 3)]
-        [DataRow(3, 1, 3, 1)]
-        [DataRow(-1, -3, 1, 3)]
-        [DataRow(1, -3, -1, 3)]
-        [DataRow(0, 3, 0, 1)]
-        [DataRow(2, 6, 1, 3)]
-        public void Test_IEquatable_GetHashCode(int numerator1, int denominator1, int numerator2, int denominator2)
-        {
-            BigRational bigRational1 = new BigRational(numerator1, denominator1);
-            BigRational bigRational2 = new BigRational(numerator2, denominator2);
-
-            Assert.IsTrue(bigRational1.GetHashCode == bigRational2.GetHashCode);
-            Assert.IsTrue(bigRational2.GetHashCode == bigRational1.GetHashCode);
         }
 
         [DataTestMethod]
