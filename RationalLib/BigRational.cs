@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿global using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Xml.Schema;
 
