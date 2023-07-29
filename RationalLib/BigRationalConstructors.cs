@@ -4,10 +4,10 @@ using System.Xml.Schema;
 
 namespace RationalLib
 {
-    public readonly struct BigRational
+    public readonly partial struct BigRational
     {
-        public BigInteger Numerator { get; }
-        public BigInteger Denominator { get; }
+        public BigInteger Numerator { get; init; } = 0;
+        public BigInteger Denominator { get; init; } = 1;
 
         public readonly static BigRational zero = new(0);
         public readonly static BigRational one = new(1);
@@ -156,13 +156,13 @@ namespace RationalLib
 
         public static bool TryParse(string rationalString, out BigRational bigRational)
         {
-            string[] stringComponents = rationalString.Split('/');
-
             if (!IsCorrectBigRationalString(rationalString))
             {
                 bigRational = NaN;
                 return false;
             }
+
+            string[] stringComponents = rationalString.Split('/');
 
             bigRational = new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
             return true;
@@ -179,6 +179,5 @@ namespace RationalLib
 
         public static explicit operator decimal(BigRational b) => (decimal)b.Numerator / (decimal)b.Denominator;
         public decimal ToDecimal(IFormatProvider? provider) => (decimal)this;
-
     }
 }

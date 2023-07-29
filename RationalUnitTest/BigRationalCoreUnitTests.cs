@@ -207,6 +207,25 @@ namespace RationalUnitTest
         }
 
         [DataTestMethod]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(2, 3, 2, 3)]
+        [DataRow(-2, 3, -2, 3)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(0, 0, 0, 0)]
+        public void Test_ToString_Later_Parse(int numerator, int denumerator, int expectedNumerator, int expectedDenominator)
+        {
+            BigRational test = new BigRational(numerator, denumerator);
+            string bigRationalToString = test.ToString();
+
+            BigRational testAfterParse;
+            BigRational.TryParse(bigRationalToString, out testAfterParse);
+
+            Assert.AreEqual(expectedNumerator, testAfterParse.Numerator);
+            Assert.AreEqual(expectedDenominator, testAfterParse.Denominator);
+        }
+
+        [DataTestMethod]
         [DataRow(3, 3, 1)]
         [DataRow(10, 5, 2)]
         [DataRow(3, 2, 1.5d)]
