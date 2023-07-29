@@ -17,6 +17,9 @@ namespace RationalUnitTest
         [DataRow(1, -3, -1, 3)]
         [DataRow(0, 3, 0, 1)]
         [DataRow(2, 6, 1, 3)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(12312, 0, 121, 0)]
+        [DataRow(-343241, 0, -1231, 0)]
         public void Test_IEquatable_Equals_True(int numerator1, int denominator1, int numerator2, int denominator2)
         {
             BigRational bigRational1 = new BigRational(numerator1, denominator1);
@@ -33,7 +36,8 @@ namespace RationalUnitTest
         [DataRow(1, -3, -1, -3)]
         [DataRow(5, 10, 1, 5)]
         [DataRow(5, 10, 0, 0)]
-        [DataRow(0, 0, 0, 0)]
+        [DataRow(-5, 0, 1213, 0)]
+        [DataRow(5, 10, -12, 0)]
         public void Test_IEquatable_Equals_False(int numerator1, int denominator1, int numerator2, int denominator2)
         {
             BigRational bigRational1 = new BigRational(numerator1, denominator1);
@@ -47,10 +51,20 @@ namespace RationalUnitTest
         public void Test_IEquatable_Equals_NaN()
         {
             BigRational bigRational1 = BigRational.NaN;
-            BigRational bigRational2 = new BigRational(0, 0);
+            BigRational bigRational2 = new BigRational(12, 0);
 
             Assert.IsFalse(bigRational1.Equals(bigRational2));
             Assert.IsFalse(bigRational2.Equals(bigRational1));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_When_NaN_Equals_NaN()
+        {
+            BigRational bigRational1 = BigRational.NaN;
+            BigRational bigRational2 = new BigRational(0, 0);
+
+            Assert.IsTrue(bigRational1.Equals(bigRational2));
+            Assert.IsTrue(bigRational2.Equals(bigRational1));
         }
 
         [TestMethod]
@@ -96,6 +110,9 @@ namespace RationalUnitTest
         [DataRow(1, -3, -1, 3)]
         [DataRow(0, 3, 0, 1)]
         [DataRow(2, 6, 1, 3)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(12312, 0, 121, 0)]
+        [DataRow(-343241, 0, -1231, 0)]
         public void Test_IEquatable_Operator_True(int numerator1, int denominator1, int numerator2, int denominator2)
         {
             BigRational bigRational1 = new BigRational(numerator1, denominator1);
@@ -112,6 +129,9 @@ namespace RationalUnitTest
         [DataRow(1, -3, -1, 3)]
         [DataRow(0, 3, 0, 1)]
         [DataRow(2, 6, 1, 3)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(12312, 0, 121, 0)]
+        [DataRow(-343241, 0, -1231, 0)]
         public void Test_IEquatable_Operator_False(int numerator1, int denominator1, int numerator2, int denominator2)
         {
             BigRational bigRational1 = new BigRational(numerator1, denominator1);
@@ -129,6 +149,15 @@ namespace RationalUnitTest
             Assert.IsFalse(bigRational1.Equals(null));
         }
 
+        [TestMethod]
+        public void Test_IEquatable_Operator_Null()
+        {
+            BigRational bigRational1 = new BigRational(1, 5);
+
+            Assert.IsFalse(bigRational1 == null);
+            Assert.IsFalse(null == bigRational1);
+        }
+
         [DataTestMethod]
         [DataRow(1, 3, 1, 3, 1, 4)]
         [DataRow(3, 1, 3, 1, 3, 1)]
@@ -143,6 +172,76 @@ namespace RationalUnitTest
             BigRational z = new BigRational(numerator3, denominator3);
 
             Assert.IsTrue(!BigRational.Equals(x, y) || !BigRational.Equals(y, z) || BigRational.Equals(x, z));
+        }
+
+        [DataTestMethod]
+        [DataRow(1, 3, 1, 3)]
+        [DataRow(3, 1, 3, 1)]
+        [DataRow(-1, -3, 1, 3)]
+        [DataRow(1, -3, -1, 3)]
+        [DataRow(0, 3, 0, 1)]
+        [DataRow(2, 6, 1, 3)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(12312, 0, 121, 0)]
+        [DataRow(-343241, 0, -1231, 0)]
+        public void Test_IEquatable_Equals_Static_Operator(int numerator1, int denominator1, int numerator2, int denominator2)
+        {
+            BigRational bigRational1 = new BigRational(numerator1, denominator1);
+            BigRational bigRational2 = new BigRational(numerator2, denominator2);
+
+            Assert.IsTrue(BigRational.Equals(bigRational1, bigRational2));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_Static_Null()
+        {
+            BigRational x = new BigRational(1, 2);
+
+            Assert.IsFalse(BigRational.Equals(x, null));
+            Assert.IsFalse(BigRational.Equals(null, x));
+            Assert.IsTrue(BigRational.Equals(null, null));
+        }
+
+        [DataTestMethod]
+        [DataRow(1, 3, 1, 3)]
+        [DataRow(3, 1, 3, 1)]
+        [DataRow(-1, -3, 1, 3)]
+        [DataRow(1, -3, -1, 3)]
+        [DataRow(0, 3, 0, 1)]
+        [DataRow(2, 6, 1, 3)]
+        public void Test_IEquatable_GetHashCode(int numerator1, int denominator1, int numerator2, int denominator2)
+        {
+            BigRational bigRational1 = new BigRational(numerator1, denominator1);
+            BigRational bigRational2 = new BigRational(numerator2, denominator2);
+
+            Assert.IsTrue(bigRational1.GetHashCode == bigRational2.GetHashCode);
+            Assert.IsTrue(bigRational2.GetHashCode == bigRational1.GetHashCode);
+        }
+
+        [DataTestMethod]
+        [DataRow(3, 1, 3)]
+        [DataRow(-3, 1, -3)]
+        [DataRow(3, -1, -3)]
+        [DataRow(10, 5, 2)]
+        [DataRow(1, 1, 1)]
+        public void Test_IEquatable_BigRational_Equals_int(int numerator, int denominator, int expected)
+        {
+            BigRational b = new BigRational(numerator, denominator);
+
+            Assert.AreEqual(expected, b);
+        }
+
+        [DataTestMethod]
+        [DataRow(1, 2, 0.5)]
+        [DataRow(4, 20, 0.2)]
+        [DataRow(18, 5, 3.3)]
+        [DataRow(10, 5, 2.0)]
+        [DataRow(1, 1, 1.0)]
+        public void Test_IEquatable_BigRational_Equals_double(int numerator, int denominator, double expected)
+        {
+            BigRational b = new BigRational(numerator, denominator);
+
+            Assert.AreEqual(expected, b);
         }
     }
 }
