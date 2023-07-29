@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -20,16 +21,20 @@ namespace RationalLib
             return false;
         }
 
-        public bool Equals(BigRational other)
-        {
-            if (ReferenceEquals(this, other))
-                return true;
-        }
+        public bool Equals(BigRational other) =>
+               !BigRational.IsNaN(other)
+            && this.Numerator == other.Numerator
+            && this.Denominator == other.Denominator;
 
         public static bool operator ==(BigRational left, BigRational right)
-            => throw new NotImplementedException();
+            => left.Equals(right);
 
         public static bool operator !=(BigRational left, BigRational right)
-            => throw new NotImplementedException();
+            => !(left == right);
+
+        public override int GetHashCode() => (Numerator, Denominator).GetHashCode();
+
+        public static bool Equals(BigRational u1, BigRational u2)
+            => u1.Equals(u2);
     }
 }

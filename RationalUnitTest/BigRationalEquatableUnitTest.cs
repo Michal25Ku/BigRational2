@@ -33,6 +33,7 @@ namespace RationalUnitTest
         [DataRow(1, -3, -1, -3)]
         [DataRow(5, 10, 1, 5)]
         [DataRow(5, 10, 0, 0)]
+        [DataRow(0, 0, 0, 0)]
         public void Test_IEquatable_Equals_False(int numerator1, int denominator1, int numerator2, int denominator2)
         {
             BigRational bigRational1 = new BigRational(numerator1, denominator1);
@@ -40,6 +41,36 @@ namespace RationalUnitTest
 
             Assert.IsFalse(bigRational1.Equals(bigRational2));
             Assert.IsFalse(bigRational2.Equals(bigRational1));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_NaN()
+        {
+            BigRational bigRational1 = BigRational.NaN;
+            BigRational bigRational2 = new BigRational(0, 0);
+
+            Assert.IsFalse(bigRational1.Equals(bigRational2));
+            Assert.IsFalse(bigRational2.Equals(bigRational1));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_PositiveInfinity()
+        {
+            BigRational bigRational1 = BigRational.positiveInfinity;
+            BigRational bigRational2 = new BigRational(124, 0);
+
+            Assert.IsTrue(bigRational1.Equals(bigRational2));
+            Assert.IsTrue(bigRational2.Equals(bigRational1));
+        }
+
+        [TestMethod]
+        public void Test_IEquatable_Equals_NegativeInfinity()
+        {
+            BigRational bigRational1 = BigRational.negativeInfinity;
+            BigRational bigRational2 = new BigRational(-1241, 0);
+
+            Assert.IsTrue(bigRational1.Equals(bigRational2));
+            Assert.IsTrue(bigRational2.Equals(bigRational1));
         }
 
         [DataTestMethod]
@@ -111,7 +142,7 @@ namespace RationalUnitTest
             BigRational y = new BigRational(numerator2, denominator2);
             BigRational z = new BigRational(numerator3, denominator3);
 
-            Assert.IsTrue(!x.Equals(y) || !y.Equals(z) || x.Equals(z));
+            Assert.IsTrue(!BigRational.Equals(x, y) || !BigRational.Equals(y, z) || BigRational.Equals(x, z));
         }
     }
 }
