@@ -31,10 +31,14 @@ namespace RationalLib
         public long ToLong(IFormatProvider? provider) => (long)this;
         public ulong ToUlong(IFormatProvider? provider) => (ulong)this;
 
-        public static explicit operator int(BigRational b) => (int)(b.Numerator / b.Denominator);
-        public static explicit operator double(BigRational b) => (double)(b.Numerator / b.Denominator);
-        public static explicit operator float(BigRational b) => (float)(b.Numerator / b.Denominator);
-        public static explicit operator decimal(BigRational b) => (decimal)(b.Numerator / b.Denominator);
+        public static implicit operator BigRational(double b) => new BigRational((BigInteger)(b * Math.Pow(10, b.ToString().Split('.')[1].Length)));
+        public static implicit operator BigRational(float b) => new BigRational((BigInteger)(b * Math.Pow(10, b.ToString().Split('.')[1].Length)));
+        public static implicit operator BigRational(decimal b) => new BigRational((BigInteger)(b * (decimal)Math.Pow(10, b.ToString().Split('.')[1].Length)));
+
+        public static explicit operator int(BigRational b) => (int)b.Numerator / (int)b.Denominator;
+        public static explicit operator double(BigRational b) => (double)b.Numerator / (double)b.Denominator;
+        public static explicit operator float(BigRational b) => (float)b.Numerator / (float)b.Denominator;
+        public static explicit operator decimal(BigRational b) => (decimal)b.Numerator / (decimal)b.Denominator;
 
         public int ToInt(IFormatProvider? provider) => (int)this;
         public double ToDouble(IFormatProvider? provider) => (double)this;
