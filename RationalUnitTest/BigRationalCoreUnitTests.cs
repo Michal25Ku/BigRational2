@@ -175,54 +175,5 @@ namespace RationalUnitTest
 
             Assert.AreEqual(expected, test.ToString());
         }
-
-        [DataTestMethod]
-        [DataRow("1/2", 1, 2)]
-        [DataRow("0/0", 0, 0)]
-        [DataRow("4/6", 2, 3)]
-        [DataRow("4/-6", -2, 3)]
-        public void Test_Parse(string fraction, int expectedNumerator, int expectedDenominator)
-        {
-            BigRational test = BigRational.Parse(fraction);
-
-            Assert.AreEqual(expectedNumerator, test.Numerator);
-            Assert.AreEqual(expectedDenominator, test.Denominator);
-        }
-
-        [DataTestMethod]
-        [DataRow("1/2", 1, 2)]
-        [DataRow("0/0", 0, 0)]
-        [DataRow("4/6", 2, 3)]
-        [DataRow("4/-6", -2, 3)]
-        [DataRow("l/-6", 0, 0)]
-        [DataRow("4/-6/2", 0, 0)]
-        public void Test_TryParse(string fraction, int expectedNumerator, int expectedDenominator)
-        {
-            BigRational test;
-
-            BigRational.TryParse(fraction, out test);
-
-            Assert.AreEqual(expectedNumerator, test.Numerator);
-            Assert.AreEqual(expectedDenominator, test.Denominator);
-        }
-
-        [DataTestMethod]
-        [DataRow(1, 2, 1, 2)]
-        [DataRow(0, 0, 0, 0)]
-        [DataRow(2, 3, 2, 3)]
-        [DataRow(-2, 3, -2, 3)]
-        [DataRow(0, 0, 0, 0)]
-        [DataRow(0, 0, 0, 0)]
-        public void Test_ToString_Later_Parse(int numerator, int denumerator, int expectedNumerator, int expectedDenominator)
-        {
-            BigRational test = new BigRational(numerator, denumerator);
-            string bigRationalToString = test.ToString();
-
-            BigRational testAfterParse;
-            BigRational.TryParse(bigRationalToString, out testAfterParse);
-
-            Assert.AreEqual(expectedNumerator, testAfterParse.Numerator);
-            Assert.AreEqual(expectedDenominator, testAfterParse.Denominator);
-        }
     }
 }

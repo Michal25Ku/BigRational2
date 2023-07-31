@@ -46,5 +46,29 @@ namespace RationalLib
         public static explicit operator double(BigRational b) => (double)b.Numerator / (double)b.Denominator;
         public static explicit operator float(BigRational b) => (float)b.Numerator / (float)b.Denominator;
         public static explicit operator decimal(BigRational b) => (decimal)b.Numerator / (decimal)b.Denominator;
+
+        public static BigRational Parse(string rationalString)
+        {
+            string[] stringComponents = rationalString.Split('/');
+
+            if (!IsCorrectBigRationalString(rationalString))
+                throw new ArgumentException("Incorrectly specified BigRational type in the form of a string");
+
+            return new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
+        }
+
+        public static bool TryParse(string rationalString, out BigRational bigRational)
+        {
+            if (!IsCorrectBigRationalString(rationalString))
+            {
+                bigRational = NaN;
+                return false;
+            }
+
+            string[] stringComponents = rationalString.Split('/');
+
+            bigRational = new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
+            return true;
+        }
     }
 }

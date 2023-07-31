@@ -260,7 +260,7 @@ namespace RationalUnitTest
         [DataTestMethod]
         [DataRow(1, 2, 0.5)]
         [DataRow(4, 20, 0.2)]
-        [DataRow(18, 5, 3.3)]
+        [DataRow(18, 5, 3.6)]
         [DataRow(10, 5, 2.0)]
         [DataRow(1, 1, 1.0)]
         public void Test_IEquatable_BigRational_Equals_double(int numerator, int denominator, double expected)
