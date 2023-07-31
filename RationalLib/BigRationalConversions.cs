@@ -16,6 +16,24 @@ namespace RationalLib
         public static implicit operator BigRational(long n) => new BigRational(n,1);
         public static implicit operator BigRational(ulong n) => new BigRational(n,1);
 
+        public static implicit operator BigRational(float b)
+        {
+            int floatPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)b)[3])[2];
+            return new BigRational((BigInteger)Math.Round(b * Math.Pow(10, floatPlaces)), (BigInteger)Math.Round(Math.Pow(10, floatPlaces)));
+        }
+
+        public static implicit operator BigRational(double b)
+        {
+            int floatPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)b)[3])[2];
+            return new BigRational((BigInteger)Math.Round(b * Math.Pow(10, floatPlaces)), (BigInteger)Math.Round(Math.Pow(10, floatPlaces)));
+        }
+
+        public static implicit operator BigRational(decimal b)
+        {
+            int floatPlaces = BitConverter.GetBytes(decimal.GetBits(b)[3])[2];
+            return new BigRational((BigInteger)Math.Round(b * (decimal)Math.Pow(10, floatPlaces)), (BigInteger)Math.Round((decimal)Math.Pow(10, floatPlaces)));
+        }
+
         public static explicit operator byte(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? (byte)0 : (byte)(b.Numerator / b.Denominator);
         public static explicit operator sbyte(BigRational b) => (sbyte)(b.Numerator / b.Denominator);
         public static explicit operator short(BigRational b) => (short)(b.Numerator / b.Denominator);
@@ -23,27 +41,10 @@ namespace RationalLib
         public static explicit operator uint(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? 0 : (uint)(b.Numerator / b.Denominator);
         public static explicit operator long(BigRational b) => (long)(b.Numerator / b.Denominator);
         public static explicit operator ulong(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? 0 : (ulong)(b.Numerator / b.Denominator);
-        public byte ToByte(IFormatProvider? provider) => (byte)this;
-        public sbyte ToSbyte(IFormatProvider? provider) => (sbyte)this;
-        public short ToShort(IFormatProvider? provider) => (short)this;
-        public ushort ToUshort(IFormatProvider? provider) => (ushort)this;
-        public uint ToUint(IFormatProvider? provider) => (uint)this;
-        public long ToLong(IFormatProvider? provider) => (long)this;
-        public ulong ToUlong(IFormatProvider? provider) => (ulong)this;
-
-        public static implicit operator BigRational(double b) => new BigRational((BigInteger)(b * Math.Pow(10, b.ToString().Split('.')[1].Length)));
-        public static implicit operator BigRational(float b) => new BigRational((BigInteger)(b * Math.Pow(10, b.ToString().Split('.')[1].Length)));
-        public static implicit operator BigRational(decimal b) => new BigRational((BigInteger)(b * (decimal)Math.Pow(10, b.ToString().Split('.')[1].Length)));
 
         public static explicit operator int(BigRational b) => (int)b.Numerator / (int)b.Denominator;
         public static explicit operator double(BigRational b) => (double)b.Numerator / (double)b.Denominator;
         public static explicit operator float(BigRational b) => (float)b.Numerator / (float)b.Denominator;
         public static explicit operator decimal(BigRational b) => (decimal)b.Numerator / (decimal)b.Denominator;
-
-        public int ToInt(IFormatProvider? provider) => (int)this;
-        public double ToDouble(IFormatProvider? provider) => (double)this;
-        public float ToSingle(IFormatProvider? provider) => (float)this;
-        public decimal ToDecimal(IFormatProvider? provider) => (decimal)this;
-
     }
 }
