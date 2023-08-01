@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RationalLib
 {
-    public readonly partial struct BigRational
+    public readonly partial struct BigRational : IConvertible
     {
         public static implicit operator BigRational(byte n) => new BigRational(n,1);
         public static implicit operator BigRational(sbyte n) => new BigRational(n,1);
@@ -70,5 +70,46 @@ namespace RationalLib
             bigRational = new BigRational(Int32.Parse(stringComponents[0]), Int32.Parse(stringComponents[1]));
             return true;
         }
+
+        public TypeCode GetTypeCode() => TypeCode.Object;
+
+        public bool ToBoolean(IFormatProvider? provider)
+        {
+            if (Numerator != 0 || Denominator != 0)
+                return true;
+            else
+                return false;
+        }
+
+        public byte ToByte(IFormatProvider? provider) => (byte)this;
+
+        public char ToChar(IFormatProvider? provider) => Convert.ToChar(this);
+
+        public DateTime ToDateTime(IFormatProvider? provider) => Convert.ToDateTime(this);
+
+        public decimal ToDecimal(IFormatProvider? provider) => (decimal)this;
+
+        public double ToDouble(IFormatProvider? provider) => (double)this;
+
+        public short ToInt16(IFormatProvider? provider) => (short)this;
+
+        public int ToInt32(IFormatProvider? provider) => (int)this;
+
+        public long ToInt64(IFormatProvider? provider) => (long)this;
+
+        public sbyte ToSByte(IFormatProvider? provider) => (sbyte)this;
+
+        public float ToSingle(IFormatProvider? provider) => (float)this;
+
+        public string ToString(IFormatProvider? provider) => ToString();
+
+        public object ToType(Type conversionType, IFormatProvider? provider)
+            => Convert.ChangeType(this, conversionType);
+
+        public ushort ToUInt16(IFormatProvider? provider) => (ushort)this;
+
+        public uint ToUInt32(IFormatProvider? provider) => (uint)this;
+
+        public ulong ToUInt64(IFormatProvider? provider) => (ulong)this;
     }
 }
