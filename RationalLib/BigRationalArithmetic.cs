@@ -13,8 +13,14 @@ namespace RationalLib
             if (IsNaN(this) || IsNaN(other))
                 return NaN;
 
-            if (IsPositiveInfinity(this) && IsPositiveInfinity(other))
+            if ((IsPositiveInfinity(this) && IsNegativeInfinity(other)) || (IsNegativeInfinity(this) && IsPositiveInfinity(other)))
                 return zero;
+
+            if (IsPositiveInfinity(this) || IsPositiveInfinity(other))
+                return positiveInfinity;
+
+            if (IsNegativeInfinity(this) || IsNegativeInfinity(other))
+                return negativeInfinity;
 
             return new BigRational((this.Numerator * other.Denominator) + (other.Numerator * this.Denominator), (this.Denominator * other.Denominator));
         }
