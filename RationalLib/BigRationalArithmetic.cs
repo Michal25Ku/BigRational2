@@ -38,5 +38,8 @@ namespace RationalLib
 
             return sum;
         }
+
+        public static BigRational operator +(BigRational left, BigRational right) 
+            => left.Plus(right);
     }
 }
