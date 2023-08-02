@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +25,18 @@ namespace RationalLib
                 return negativeInfinity;
 
             return new BigRational((this.Numerator * other.Denominator) + (other.Numerator * this.Denominator), (this.Denominator * other.Denominator));
+        }
+
+        public static BigRational Sum(BigRational first, params BigRational[] b)
+        {
+            BigRational sum = first;
+
+            for(int i = 0; i < b.Length; i++)
+            {
+                sum = sum.Plus(b[i]);
+            }
+
+            return sum;
         }
     }
 }
