@@ -11,7 +11,7 @@ namespace RationalUnitTest
     [TestClass]
     public class BigRationalArithmeticUnitTests
     {
-        [DataTestMethod]
+        [DataTestMethod, TestCategory("Plus")]
         [DataRow(1, 2, 1, 2, 1, 1)]
         [DataRow(3, 2, 1, 3, 11, 6)]
         [DataRow(-1 ,2, 1, 2, 0, 1)]
@@ -25,7 +25,7 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, test1.Plus(test2).Denominator);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Plus")]
         public void Test_Arithmetic_Plus_Method_NaN()
         {
             BigRational test1 = new BigRational();
@@ -35,7 +35,7 @@ namespace RationalUnitTest
             Assert.AreEqual(0, test1.Plus(test2).Denominator);
         }
 
-        [DataTestMethod]
+        [DataTestMethod, TestCategory("Plus")]
         [DataRow(10, 0, 1, 2, 1, 0)]
         [DataRow(-3, 0, 1, 3, -1, 0)]
         [DataRow(10, 0, 1, 0, 1, 0)]
@@ -50,7 +50,7 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, test1.Plus(test2).Denominator);
         }
 
-        [DataTestMethod]
+        [DataTestMethod, TestCategory("Plus")]
         [DataRow(1, 2, 1, 2, 1, 1)]
         [DataRow(3, 2, 1, 3, 11, 6)]
         [DataRow(-1, 2, 1, 2, 0, 1)]
@@ -66,7 +66,7 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, sum.Denominator);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Plus")]
         public void Test_Arithmetic_Plus_Static_Method_Many_Parameters()
         {
             BigRational test1 = new BigRational(1, 10);
@@ -81,8 +81,8 @@ namespace RationalUnitTest
             Assert.AreEqual(420, sum.Denominator);
         }
 
-        [TestMethod]
-        public void Test_Arithmetic_Plus_Static_Method_Many_Parameters_With_NaN()
+        [TestMethod, TestCategory("Plus")]
+        public void Test_Arithmetic_Sum_Static_Method_Many_Parameters_With_NaN()
         {
             BigRational test1 = new BigRational(1, 10);
             BigRational test2 = new BigRational(-2, 3);
@@ -96,8 +96,8 @@ namespace RationalUnitTest
             Assert.AreEqual(0, sum.Denominator);
         }
 
-        [TestMethod]
-        public void Test_Arithmetic_Plus_Static_Method_Many_Parameters_With_Infinity()
+        [TestMethod, TestCategory("Plus")]
+        public void Test_Arithmetic_Sum_Static_Method_Many_Parameters_With_Infinity()
         {
             BigRational test1 = new BigRational(1, 10);
             BigRational test2 = new BigRational(-2, 3);
@@ -111,7 +111,7 @@ namespace RationalUnitTest
             Assert.AreEqual(0, sum.Denominator);
         }
 
-        [DataTestMethod]
+        [DataTestMethod, TestCategory("Plus")]
         [DataRow(1, 2, 1, 2, 1, 1)]
         [DataRow(3, 2, 1, 3, 11, 6)]
         [DataRow(-1, 2, 1, 2, 0, 1)]
@@ -125,7 +125,7 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, (test1 + test2).Denominator);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("Plus")]
         public void Test_Arithmetic_Plus_Operator_NaN()
         {
             BigRational test1 = new BigRational();
@@ -135,7 +135,7 @@ namespace RationalUnitTest
             Assert.AreEqual(0, (test1 + test2).Denominator);
         }
 
-        [DataTestMethod]
+        [DataTestMethod, TestCategory("Plus")]
         [DataRow(10, 0, 1, 2, 1, 0)]
         [DataRow(-3, 0, 1, 3, -1, 0)]
         [DataRow(10, 0, 1, 0, 1, 0)]
@@ -148,6 +148,145 @@ namespace RationalUnitTest
 
             Assert.AreEqual(en, (test1 + test2).Numerator);
             Assert.AreEqual(ed, (test1 + test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Substract")]
+        [DataRow(1, 2, 1, 2, 0, 1)]
+        [DataRow(3, 2, 1, 3, 7, 6)]
+        [DataRow(-1, 2, 1, 2, -1, 1)]
+        [DataRow(1, 5, -2, 4, 7, 10)]
+        public void Test_Arithmetic_Substract_Method(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, test1.Substract(test2).Numerator);
+            Assert.AreEqual(ed, test1.Substract(test2).Denominator);
+        }
+
+        [TestMethod, TestCategory("Substract")]
+        public void Test_Arithmetic_Substract_Method_NaN()
+        {
+            BigRational test1 = new BigRational();
+            BigRational test2 = BigRational.NaN;
+
+            Assert.AreEqual(0, test1.Substract(test2).Numerator);
+            Assert.AreEqual(0, test1.Substract(test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Substract")]
+        [DataRow(10, 0, 1, 2, 1, 0)]
+        [DataRow(-3, 0, 1, 3, -1, 0)]
+        [DataRow(10, 0, 1, 0, 0, 1)]
+        [DataRow(-1, 0, -2, 0, 0, 1)]
+        [DataRow(1, 0, -2, 0, 1, 0)]
+        public void Test_Arithmetic_Substract_Method_Infinity(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, test1.Substract(test2).Numerator);
+            Assert.AreEqual(ed, test1.Substract(test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Substract")]
+        [DataRow(1, 2, 1, 2, 0, 1)]
+        [DataRow(3, 2, 1, 3, 7, 6)]
+        [DataRow(-1, 2, 1, 2, -1, 1)]
+        [DataRow(1, 5, -2, 4, 7, 10)]
+        public void Test_Arithmetic_Devide_Static_Method(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            BigRational dev = BigRational.Devide(test1, test2);
+
+            Assert.AreEqual(en, dev.Numerator);
+            Assert.AreEqual(ed, dev.Denominator);
+        }
+
+        [TestMethod, TestCategory("Substract")]
+        public void Test_Arithmetic_Devide_Static_Method_Many_Parameters()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(1, 4);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(1, 21);
+
+            BigRational dev = BigRational.Devide(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(-1483, dev.Numerator);
+            Assert.AreEqual(420, dev.Denominator);
+        }
+
+        [TestMethod, TestCategory("Substract")]
+        public void Test_Arithmetic_Devide_Static_Method_Many_Parameters_With_NaN()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(0, 0);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(1, 21);
+
+            BigRational dev = BigRational.Devide(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(0, dev.Numerator);
+            Assert.AreEqual(0, dev.Denominator);
+        }
+
+        [TestMethod, TestCategory("Substract")]
+        public void Test_Arithmetic_Devide_Static_Method_Many_Parameters_With_Infinity()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(4, 0);
+
+            BigRational dev = BigRational.Devide(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(-1, dev.Numerator);
+            Assert.AreEqual(0, dev.Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Substract")]
+        [DataRow(1, 2, 1, 2, 0, 1)]
+        [DataRow(3, 2, 1, 3, 7, 6)]
+        [DataRow(-1, 2, 1, 2, -1, 1)]
+        [DataRow(1, 5, -2, 4, 7, 10)]
+        public void Test_Arithmetic_Substract_Operator(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, (test1 - test2).Numerator);
+            Assert.AreEqual(ed, (test1 - test2).Denominator);
+        }
+
+        [TestMethod, TestCategory("Substract")]
+        public void Test_Arithmetic_Substract_Operator_NaN()
+        {
+            BigRational test1 = new BigRational();
+            BigRational test2 = BigRational.NaN;
+
+            Assert.AreEqual(0, (test1 - test2).Numerator);
+            Assert.AreEqual(0, (test1 - test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Substract")]
+        [DataRow(10, 0, 1, 2, 1, 0)]
+        [DataRow(-3, 0, 1, 3, -1, 0)]
+        [DataRow(10, 0, 1, 0, 0, 1)]
+        [DataRow(-1, 0, -2, 0, 0, 1)]
+        [DataRow(1, 0, -2, 0, 1, 0)]
+        public void Test_Arithmetic_Substract_Operator_Infinity(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, (test1 - test2).Numerator);
+            Assert.AreEqual(ed, (test1 - test2).Denominator);
         }
     }
 }
