@@ -132,8 +132,12 @@ namespace RationalLib
         #region Division
         public BigRational Division(BigRational other)
         {
-            if (IsNaN(this) || IsNaN(other) || this.Denominator == 0 || other.Denominator == 0)
+
+            if (IsNaN(this) || IsNaN(other) || this.Denominator == 0 || other.Denominator == 0 || other == zero || IsInfinity(this) || IsInfinity(other))
                 return NaN;
+
+            if (this == zero)
+                return zero;
 
             return new BigRational(this.Numerator * other.Denominator, this.Denominator * other.Numerator);
         }
@@ -142,16 +146,28 @@ namespace RationalLib
         {
             BigRational div = first;
 
+            if (IsNaN(first) || first.Denominator == 0 || IsInfinity(first))
+                return NaN;
+
+            if (first == zero)
+                return zero;
+
             for (int i = 0; i < b.Length; i++)
             {
-                div = div.Multiply(b[i]);
+                if (IsNaN(b[i]) || b[i].Denominator == 0 || b[i] == zero)
+                    return NaN;
+
+                if (IsInfinity(b[i]))
+                    return zero;
+
+                div = div.Division(b[i]);
             }
 
             return div;
         }
 
         public static BigRational operator /(BigRational left, BigRational right)
-            => left.Multiply(right);
+            => left.Division(right);
         #endregion
 
         #region Opposite

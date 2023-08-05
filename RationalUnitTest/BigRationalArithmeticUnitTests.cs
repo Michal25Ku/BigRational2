@@ -324,8 +324,8 @@ namespace RationalUnitTest
             BigRational test1 = new BigRational(1, 2);
             BigRational test2 = BigRational.NaN;
 
-            Assert.AreEqual(0, test1.Plus(test2).Numerator);
-            Assert.AreEqual(0, test1.Plus(test2).Denominator);
+            Assert.AreEqual(0, test1.Multiply(test2).Numerator);
+            Assert.AreEqual(0, test1.Multiply(test2).Denominator);
         }
 
         [DataTestMethod, TestCategory("Multiply")]
@@ -463,5 +463,174 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, (test1 * test2).Denominator);
         }
         #endregion
+        #region Division
+        [DataTestMethod, TestCategory("Division")]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(3, 2, 1, 3)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, -2, 4)]
+        public void Test_Arithmetic_Division_Method(int b1n, int b1d, int b2n, int b2d)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.IsTrue(new BigRational(b1n * b2d, b1d * b2n) == test1.Division(test2));
+            // neutral element
+            Assert.IsTrue((test1 * 1) == (1 * test1) && ((1 * test1) == test1) && ((test1 * 1) == test1));
+            Assert.IsTrue((test2 * 1) == (1 * test2) && ((1 * test2) == test2) && ((test2 * 1) == test2));
+            // commutative
+            Assert.IsTrue(test1.Multiply(test2) == test2.Multiply(test1));
+            // inverse element
+            Assert.IsTrue((test1.Division(test1) == 1) && (test1.Division(1) == test1));
+            Assert.IsTrue((test2.Division(test2) == 1) && (test2.Division(1) == test2));
+        }
+
+        [TestMethod, TestCategory("Division")]
+        public void Test_Arithmetic_Division_Method_NaN()
+        {
+            BigRational test1 = new BigRational(1, 2);
+            BigRational test2 = BigRational.NaN;
+
+            Assert.AreEqual(0, test1.Division(test2).Numerator);
+            Assert.AreEqual(0, test1.Division(test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Division")]
+        [DataRow(10, 0, 1, 2, 0, 0)]
+        [DataRow(-3, 0, 1, 3, 0, 0)]
+        [DataRow(10, 0, 1, 0, 0, 0)]
+        [DataRow(-1, 0, -2, 0, 0, 0)]
+        [DataRow(1, 0, -2, 0, 0, 0)]
+        [DataRow(1, 0, 0, 1, 0, 0)]
+        public void Test_Arithmetic_Division_Method_Infinity(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, test1.Division(test2).Numerator);
+            Assert.AreEqual(ed, test1.Division(test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Division")]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(3, 2, 1, 3)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, -2, 4)]
+        public void Test_Arithmetic_Division_Static_Method(int b1n, int b1d, int b2n, int b2d)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational inverseTest1 = new BigRational(b1d, b1n);
+
+            BigRational test2 = new BigRational(b2n, b2d);
+            BigRational inverseTest2 = new BigRational(b2d, b2n);
+
+            Assert.IsTrue(new BigRational(b1n * b2d, b1d * b2n) == BigRational.Division(test1, test2));
+            // neutral element
+            Assert.IsTrue(BigRational.Multiply(test1, 1) == BigRational.Multiply(1, test1) && (BigRational.Multiply(test1, 1) == test1));
+            Assert.IsTrue(BigRational.Multiply(test2, 1) == BigRational.Multiply(1, test2) && (BigRational.Multiply(test2, 1) == test2));
+            // commutative
+            Assert.IsTrue(BigRational.Multiply(test1, test2) == BigRational.Multiply(test2, test1));
+            // inverse element
+            Assert.IsTrue((BigRational.Division(test1, test1) == 1) && (BigRational.Division(test1, 1) == test1));
+            Assert.IsTrue((BigRational.Division(test2, test2) == 1) && (BigRational.Division(test2, 1) == test2));
+        }
+
+        [TestMethod, TestCategory("Division")]
+        public void Test_Arithmetic_Division_Static_Method_Many_Parameters()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(1, 4);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(1, 21);
+
+            BigRational div = BigRational.Division(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(-63, div.Numerator);
+            Assert.AreEqual(20, div.Denominator);
+        }
+
+        [TestMethod, TestCategory("Division")]
+        public void Test_Arithmetic_Division_Static_Method_Many_Parameters_With_NaN()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(0, 0);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(1, 21);
+
+            BigRational div = BigRational.Division(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(0, div.Numerator);
+            Assert.AreEqual(0, div.Denominator);
+        }
+
+        [TestMethod, TestCategory("Division")]
+        public void Test_Arithmetic_Division_Static_Method_Many_Parameters_With_Infinity()
+        {
+            BigRational test1 = new BigRational(1, 10);
+            BigRational test2 = new BigRational(-2, 3);
+            BigRational test3 = new BigRational(1, 0);
+            BigRational test4 = new BigRational(4, 1);
+            BigRational test5 = new BigRational(4, 0);
+
+            BigRational div = BigRational.Division(test1, test2, test3, test4, test5);
+
+            Assert.AreEqual(0, div.Numerator);
+            Assert.AreEqual(0, div.Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Division")]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(3, 2, 1, 3)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, -2, 4)]
+        public void Test_Arithmetic_Division_Operator(int b1n, int b1d, int b2n, int b2d)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational inverseTest1 = new BigRational(b1d, b1n);
+
+            BigRational test2 = new BigRational(b2n, b2d);
+            BigRational inverseTest2 = new BigRational(b2d, b2n);
+
+            Assert.IsTrue(new BigRational(b1n * b2d, b1d * b2n) == (test1 / test2));
+            // neutral element
+            Assert.IsTrue((test1 * 1) == (1 * test1) && ((1 * test1) == test1) && ((test1 * 1) == test1));
+            Assert.IsTrue((test2 * 1) == (1 * test2) && ((1 * test2) == test2) && ((test2 * 1) == test2));
+            // commutative
+            Assert.IsTrue((test1 * test2) == (test2 * test1));
+            // inverse element
+            Assert.IsTrue(((test1 / test1) == 1) && ((test1 / 1) == test1));
+            Assert.IsTrue(((test2 / test2) == 1) && ((test2 / 1) == test2));
+        }
+
+        [TestMethod, TestCategory("Division")]
+        public void Test_Arithmetic_Division_Operator_NaN()
+        {
+            BigRational test1 = new BigRational();
+            BigRational test2 = BigRational.NaN;
+
+            Assert.AreEqual(0, (test1 / test2).Numerator);
+            Assert.AreEqual(0, (test1 / test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Division")]
+        [DataRow(10, 0, 1, 2, 0, 0)]
+        [DataRow(-3, 0, 1, 3, 0, 0)]
+        [DataRow(10, 0, 1, 0, 0, 0)]
+        [DataRow(-1, 0, -2, 0, 0, 0)]
+        [DataRow(1, 0, -2, 0, 0, 0)]
+        [DataRow(1, 0, 0, 1, 0, 0)]
+        public void Test_Arithmetic_Division_Operator_Infinity(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, (test1 / test2).Numerator);
+            Assert.AreEqual(ed, (test1 / test2).Denominator);
+        }
+        #endregion
+        #region Inverse
     }
 }
