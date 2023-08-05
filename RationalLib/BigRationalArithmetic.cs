@@ -170,17 +170,17 @@ namespace RationalLib
             => left.Division(right);
         #endregion
 
-        #region Opposite
-        public BigRational Opposite()
+        #region Inversion
+        public BigRational Inverse()
         {
             if (IsNaN(this))
                 return NaN;
 
-            return new BigRational(-this.Numerator, this.Denominator);
+            return new BigRational((-1) * this.Numerator, this.Denominator);
         }
 
         public static BigRational operator -(BigRational b)
-            => new BigRational(-b.Numerator, b.Denominator);
+            => b.Inverse();
         #endregion
 
         #region Increment

@@ -632,5 +632,74 @@ namespace RationalUnitTest
         }
         #endregion
         #region Inverse
+        [DataTestMethod, TestCategory("Inversion")]
+        [DataRow(1, 2, -1, 2)]
+        [DataRow(3, 2, -3, 2)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, -1, 5)]
+        public void Test_Arithmetic_Inverse_Method(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Inverse().Numerator);
+            Assert.AreEqual(ed, test.Inverse().Denominator);
+        }
+
+        [TestMethod, TestCategory("Inversion")]
+        public void Test_Arithmetic_Inverse_Method_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, test.Inverse().Numerator);
+            Assert.AreEqual(0, test.Inverse().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Inversion")]
+        [DataRow(1, 0, -1, 0)]
+        [DataRow(-3, 0, 1, 0)]
+        public void Test_Arithmetic_Inverse_Method_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Inverse().Numerator);
+            Assert.AreEqual(ed, test.Inverse().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Inversion")]
+        [DataRow(1, 2, -1, 2)]
+        [DataRow(3, 2, -3, 2)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, -1, 5)]
+        [DataRow(-1, -5, -1, 5)]
+        [DataRow(1, -5, 1, 5)]
+        public void Test_Arithmetic_Inverse_Operator(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+            BigRational result = -test;
+
+            Assert.AreEqual(en, result.Numerator);
+            Assert.AreEqual(ed, result.Denominator);
+        }
+
+        [TestMethod, TestCategory("Inversion")]
+        public void Test_Arithmetic_Inverse_Operator_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, -test.Numerator);
+            Assert.AreEqual(0, -test.Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Inversion")]
+        [DataRow(1, 0, -1, 0)]
+        [DataRow(-3, 0, 1, 0)]
+        public void Test_Arithmetic_Inverse_Operator_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, -test.Numerator);
+            Assert.AreEqual(ed, -test.Denominator);
+        }
+        #endregion
     }
 }
