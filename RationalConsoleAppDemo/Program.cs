@@ -8,9 +8,10 @@ namespace RationalConsoleAppDemo
     {
         static void Main(string[] args)
         {
-            int floatPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)0.7)[3])[2];
-            //new BigRational((BigInteger)(b * Math.Pow(10, floatPlaces)), (BigInteger)Math.Pow(10, floatPlaces));
-            Console.WriteLine(Math.Round(0.7f * Math.Pow(10, floatPlaces)));
+            BigRational b1 = new BigRational(1, 2);
+            BigRational b2 = new BigRational(2, 3);
+
+            Console.WriteLine(b1.Multiply(b2));
         }
     }
 }

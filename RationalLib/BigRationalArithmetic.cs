@@ -92,6 +92,9 @@ namespace RationalLib
             if (IsNaN(this) || IsNaN(other))
                 return NaN;
 
+            if (this == zero || other == zero)
+                return zero;
+
             if (IsPositiveInfinity(this) && IsNegativeInfinity(other) || (IsNegativeInfinity(this) && IsPositiveInfinity(other)))
                 return negativeInfinity;
 
@@ -113,6 +116,9 @@ namespace RationalLib
 
             for (int i = 0; i < b.Length; i++)
             {
+                if (b[i] == zero)
+                    return zero;
+
                 mult = mult.Multiply(b[i]);
             }
 

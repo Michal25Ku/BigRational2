@@ -9,7 +9,6 @@ namespace RationalLib
     public readonly partial struct BigRational : IConvertible
     {
         public static implicit operator BigRational(byte n) => new BigRational(n,1);
-        public static implicit operator BigRational(sbyte n) => new BigRational(n,1);
         public static implicit operator BigRational(short n) => new BigRational(n,1);
         public static implicit operator BigRational(ushort n) => new BigRational(n,1);
         public static implicit operator BigRational(uint n) => new BigRational(n,1);
@@ -35,7 +34,6 @@ namespace RationalLib
         }
 
         public static explicit operator byte(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? (byte)0 : (byte)(b.Numerator / b.Denominator);
-        public static explicit operator sbyte(BigRational b) => (sbyte)(b.Numerator / b.Denominator);
         public static explicit operator short(BigRational b) => (short)(b.Numerator / b.Denominator);
         public static explicit operator ushort(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? (ushort)0 : (ushort)(b.Numerator / b.Denominator);
         public static explicit operator uint(BigRational b) => ((b.Numerator / b.Denominator) < 0) ? 0 : (uint)(b.Numerator / b.Denominator);
