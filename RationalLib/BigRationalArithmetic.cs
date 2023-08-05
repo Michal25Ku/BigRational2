@@ -195,7 +195,7 @@ namespace RationalLib
             if (IsNegativeInfinity(this))
                 return negativeInfinity;
 
-            return new BigRational(this.Numerator + this.Denominator, Denominator);
+            return BigRational.Sum(this, new BigRational(this.Denominator, this.Denominator));
         }
 
         public static BigRational operator ++(BigRational b)
@@ -214,7 +214,7 @@ namespace RationalLib
             if (IsNegativeInfinity(this))
                 return negativeInfinity;
 
-            return new BigRational(this.Numerator - this.Denominator, Denominator);
+            return BigRational.Devide(this, new BigRational(this.Denominator, this.Denominator));
         }
 
         public static BigRational operator --(BigRational b)

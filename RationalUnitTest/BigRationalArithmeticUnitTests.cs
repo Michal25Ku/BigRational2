@@ -701,5 +701,147 @@ namespace RationalUnitTest
             Assert.AreEqual(ed, -test.Denominator);
         }
         #endregion
+        #region Increment
+        [DataTestMethod, TestCategory("Increment")]
+        [DataRow(1, 2, 3, 2)]
+        [DataRow(3, 2, 5, 2)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, 6, 5)]
+        public void Test_Arithmetic_Increment_Method(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+            BigRational result = test.Increment();
+
+            Assert.AreEqual(en, result.Numerator);
+            Assert.AreEqual(ed, result.Denominator);
+        }
+
+        [TestMethod, TestCategory("Increment")]
+        public void Test_Arithmetic_Increment_Method_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, test.Increment().Numerator);
+            Assert.AreEqual(0, test.Increment().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Increment")]
+        [DataRow(1, 0, 1, 0)]
+        [DataRow(-3, 0, -1, 0)]
+        public void Test_Arithmetic_Increment_Method_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Increment().Numerator);
+            Assert.AreEqual(ed, test.Increment().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Increment")]
+        [DataRow(1, 2, 3, 2)]
+        [DataRow(3, 2, 5, 2)]
+        [DataRow(-1, 2, 1, 2)]
+        [DataRow(1, 5, 6, 5)]
+        [DataRow(-1, -5, 6, 5)]
+        [DataRow(1, -5, 4, 5)]
+        public void Test_Arithmetic_Increment_Operator(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+            test++;
+
+            Assert.AreEqual(en, test.Numerator);
+            Assert.AreEqual(ed, test.Denominator);
+        }
+
+        [TestMethod, TestCategory("Increment")]
+        public void Test_Arithmetic_Increment_Operator_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, (test++).Numerator);
+            Assert.AreEqual(0, (test++).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Increment")]
+        [DataRow(1, 0, 1, 0)]
+        [DataRow(-3, 0, -1, 0)]
+        public void Test_Arithmetic_Increment_Operator_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, (test++).Numerator);
+            Assert.AreEqual(ed, (test++).Denominator);
+        }
+        #endregion
+        #region Decrement
+        [DataTestMethod, TestCategory("Decrement")]
+        [DataRow(1, 2, -1, 2)]
+        [DataRow(3, 2, 1, 2)]
+        [DataRow(-1, 2, -3, 2)]
+        [DataRow(1, 5, -4, 5)]
+        public void Test_Arithmetic_Decrement_Method(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+            BigRational result = test.Decrement();
+
+            Assert.AreEqual(en, result.Numerator);
+            Assert.AreEqual(ed, result.Denominator);
+        }
+
+        [TestMethod, TestCategory("Decrement")]
+        public void Test_Arithmetic_Decrement_Method_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, test.Decrement().Numerator);
+            Assert.AreEqual(0, test.Decrement().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Decrement")]
+        [DataRow(1, 0, 1, 0)]
+        [DataRow(-3, 0, -1, 0)]
+        public void Test_Arithmetic_Decrement_Method_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Decrement().Numerator);
+            Assert.AreEqual(ed, test.Decrement().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Decrement")]
+        [DataRow(1, 2, -1, 2)]
+        [DataRow(3, 2, 1, 2)]
+        [DataRow(-1, 2, -3, 2)]
+        [DataRow(1, 5, -4, 5)]
+        [DataRow(-1, -5, -4, 5)]
+        [DataRow(1, -5, -6, 5)]
+        public void Test_Arithmetic_Decrement_Operator(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+            test--;
+
+            Assert.AreEqual(en, test.Numerator);
+            Assert.AreEqual(ed, test.Denominator);
+        }
+
+        [TestMethod, TestCategory("Decrement")]
+        public void Test_Arithmetic_Decrement_Operator_With_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, (test--).Numerator);
+            Assert.AreEqual(0, (test--).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Decrement")]
+        [DataRow(1, 0, 1, 0)]
+        [DataRow(-3, 0, -1, 0)]
+        public void Test_Arithmetic_Decrement_Operator_With_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, (test--).Numerator);
+            Assert.AreEqual(ed, (test--).Denominator);
+        }
+        #endregion
     }
 }
