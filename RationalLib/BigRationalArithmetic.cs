@@ -220,5 +220,127 @@ namespace RationalLib
         public static BigRational operator --(BigRational b)
             => b.Decrement();
         #endregion
+
+        #region Abs
+        public BigRational Abs()
+        {
+            if (IsNaN(this))
+                return NaN;
+
+            if (this < 0)
+                return new BigRational((-1) * Numerator, Denominator);
+            else
+                return this;
+        }
+
+        public static BigRational Abs(BigRational b)
+        {
+            return b.Abs();
+        }
+        #endregion
+
+        #region Sign
+        public BigRational Sign()
+        {
+            if (IsNaN(this))
+                return NaN;
+
+            if (this < 0)
+                return new BigRational(-1, 1);
+            else if (this == 0)
+                return zero;
+            else
+                return new BigRational(1, 1);
+        }
+
+        public static BigRational Sign(BigRational b)
+        {
+            return b.Sign();
+        }
+        #endregion
+
+        #region Floor
+        public BigRational Floor()
+        {
+            if (IsNaN(this) || IsInfinity(this))
+                return NaN;
+
+            if (this > 0)
+                return new BigRational(this.Numerator - (this.Numerator % this.Denominator), this.Denominator);
+            if (this == 0)
+                return zero;
+            else
+                return new BigRational(this.Numerator - (this.Numerator % this.Denominator) - this.Denominator, this.Denominator);
+        }
+
+        public static BigRational Floor(BigRational b)
+        {
+            return b.Floor();
+        }
+        #endregion
+
+        #region Ceiling
+        public BigRational Ceiling()
+        {
+            if (IsNaN(this) || IsInfinity(this))
+                return NaN;
+
+            if (this > 0)
+                return new BigRational(this.Numerator - (this.Numerator % this.Denominator) + this.Denominator, this.Denominator);
+            else if (this == 0)
+                return zero;
+            else
+                return new BigRational(this.Numerator - (this.Numerator % this.Denominator), this.Denominator);
+        }
+
+        public static BigRational Ceiling(BigRational b)
+        {
+            return b.Ceiling();
+        }
+        #endregion
+
+        #region Max
+        public static BigRational Max(BigRational b1, BigRational b2)
+        {
+            if (IsNaN(b1) || IsNaN(b2))
+                return NaN;
+
+            if (IsPositiveInfinity(b1) || IsPositiveInfinity(b2))
+                return positiveInfinity;
+
+            if(IsNegativeInfinity(b1) && !IsNegativeInfinity(b2))
+                return b2;
+
+            if (!IsNegativeInfinity(b1) && IsNegativeInfinity(b2))
+                return b1;
+
+            if (b1 >= b2)
+                return b1;
+            else
+                return b2;
+        }
+        #endregion
+
+        #region Pow
+        public static BigRational Pow(BigRational b, double p)
+        {
+            if (IsNaN(b))
+                return NaN;
+
+            if (p == 0)
+                return one;
+
+            if(IsPositiveInfinity(b))
+                return positiveInfinity;
+
+            if(IsNegativeInfinity(b))
+                return negativeInfinity;
+
+            double bToDouble = (double)b;
+            bToDouble = Math.Pow(bToDouble, p);
+
+            return (BigRational)bToDouble;
+        }
+        #endregion
     }
 }

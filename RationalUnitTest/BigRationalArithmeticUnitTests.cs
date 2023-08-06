@@ -2,6 +2,7 @@
 using RationalLib;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -841,6 +842,204 @@ namespace RationalUnitTest
 
             Assert.AreEqual(en, (test--).Numerator);
             Assert.AreEqual(ed, (test--).Denominator);
+        }
+        #endregion#
+        #region Abs
+        [DataTestMethod, TestCategory("Abs")]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(-3, 2, 3, 2)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(7, 0, 1, 0)]
+        [DataRow(-7, 0, 1, 0)]
+        public void Test_Arithmetic_Abs_Method(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Abs().Numerator);
+            Assert.AreEqual(ed, test.Abs().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Abs")]
+        [DataRow(1, 2, 1, 2)]
+        [DataRow(-3, 2, 3, 2)]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(7, 0, 1, 0)]
+        [DataRow(-7, 0, 1, 0)]
+        public void Test_Arithmetic_Static_Abs_Method(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, BigRational.Abs(test).Numerator);
+            Assert.AreEqual(ed, BigRational.Abs(test).Denominator);
+        }
+        #endregion
+        #region Sign
+        [DataTestMethod, TestCategory("Sign")]
+        [DataRow(1, 2, 1)]
+        [DataRow(-3, 2, -1)]
+        [DataRow(7, 0, 1)]
+        [DataRow(-7, 0, -1)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Sign_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, test.Sign());
+        }
+
+        [TestMethod, TestCategory("Sign")]
+        public void Test_Arithmetic_Sign_Method_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, test.Sign().Numerator);
+            Assert.AreEqual(0, test.Sign().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Sign")]
+        [DataRow(1, 2, 1)]
+        [DataRow(-3, 2, -1)]
+        [DataRow(7, 0, 1)]
+        [DataRow(-7, 0, -1)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Static_Sign_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, BigRational.Sign(test));
+        }
+        #endregion
+        #region Floor
+        [DataTestMethod, TestCategory("Floor")]
+        [DataRow(1, 2, 0)]
+        [DataRow(7, 5, 1)]
+        [DataRow(-3, 2, -2)]
+        [DataRow(-7, 5, -2)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Floor_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, test.Floor());
+        }
+
+        [DataTestMethod, TestCategory("Floor")]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(1, 0, 0, 0)]
+        [DataRow(-3, 0, 0, 0)]
+        public void Test_Arithmetic_Floor_Method_NaN_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Floor().Numerator);
+            Assert.AreEqual(ed, test.Floor().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Floor")]
+        [DataRow(1, 2, 0)]
+        [DataRow(7, 5, 1)]
+        [DataRow(-3, 2, -2)]
+        [DataRow(-7, 5, -2)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Static_Floor_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, BigRational.Floor(test));
+        }
+        #endregion
+        #region Ceiling
+        [DataTestMethod, TestCategory("Ceiling")]
+        [DataRow(1, 2, 1)]
+        [DataRow(7, 5, 2)]
+        [DataRow(-3, 2, -1)]
+        [DataRow(-7, 5, -1)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Ceiling_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, test.Ceiling());
+        }
+
+        [DataTestMethod, TestCategory("Ceiling")]
+        [DataRow(0, 0, 0, 0)]
+        [DataRow(1, 0, 0, 0)]
+        [DataRow(-3, 0, 0, 0)]
+        public void Test_Arithmetic_Ceiling_Method_NaN_Infinity(int bn, int bd, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, test.Ceiling().Numerator);
+            Assert.AreEqual(ed, test.Ceiling().Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Ceiling")]
+        [DataRow(1, 2, 1)]
+        [DataRow(7, 5, 2)]
+        [DataRow(-3, 2, -1)]
+        [DataRow(-7, 5, -1)]
+        [DataRow(0, 1, 0)]
+        public void Test_Arithmetic_Static_Ceiling_Method(int bn, int bd, int e)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(e, BigRational.Ceiling(test));
+        }
+        #endregion
+        #region Max
+        [DataTestMethod, TestCategory("Max")]
+        [DataRow(1, 2, 1, 4, 1, 2)]
+        [DataRow(7, 5, 2, 1, 2, 1)]
+        [DataRow(-3, 2, -4, 2, -3, 2)]
+        [DataRow(-1, 0, 0, 1, 0, 1)]
+        [DataRow(1, 0, 0, 1, 1, 0)]
+        public void Test_Arithmetic_Max_Static_Method(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, BigRational.Max(test1, test2).Numerator);
+            Assert.AreEqual(ed, BigRational.Max(test1, test2).Denominator);
+        }
+
+        [DataTestMethod, TestCategory("Max")]
+        [DataRow(0, 0, 0, 0, 0, 0)]
+        [DataRow(1, 0, 0, 0, 0, 0)]
+        [DataRow(-3, 1, 0, 0, 0, 0)]
+        public void Test_Arithmetic_Max_Method_NaN(int b1n, int b1d, int b2n, int b2d, int en, int ed)
+        {
+            BigRational test1 = new BigRational(b1n, b1d);
+            BigRational test2 = new BigRational(b2n, b2d);
+
+            Assert.AreEqual(en, BigRational.Max(test1, test2).Numerator);
+            Assert.AreEqual(ed, BigRational.Max(test1, test2).Denominator);
+        }
+        #endregion
+        #region Pow
+        [DataTestMethod, TestCategory("Pow")]
+        [DataRow(1, 2, 2, 1, 4)]
+        [DataRow(7, 5, 3, 343, 125)]
+        [DataRow(-3, 2, 2, 9, 4)]
+        [DataRow(-3, 2, 3, -27, 8)]
+        [DataRow(-3, 2, 0, 1, 1)]
+        [DataRow(-1, 0, 21, -1, 0)]
+        [DataRow(4, 0, 4, 1, 0)]
+        public void Test_Arithmetic_Pow_Static_Method(int bn, int bd, int p, int en, int ed)
+        {
+            BigRational test = new BigRational(bn, bd);
+
+            Assert.AreEqual(en, BigRational.Pow(test, p).Numerator);
+            Assert.AreEqual(ed, BigRational.Pow(test, p).Denominator);
+        }
+
+        [TestMethod, TestCategory("Pow")]
+        public void Test_Arithmetic_Pow_Method_NaN()
+        {
+            BigRational test = new BigRational(0, 0);
+
+            Assert.AreEqual(0, BigRational.Pow(test, 12).Numerator);
+            Assert.AreEqual(0, BigRational.Pow(test, 12).Denominator);
         }
         #endregion
     }
