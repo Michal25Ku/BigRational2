@@ -94,10 +94,12 @@ namespace RationalLib
         public BigRational(BigInteger value) : this(value, 1) { }
         public BigRational() : this(0, 1) { }
 
-        public BigRational(string stringValue) : this(Int32.Parse(stringValue.Split('/')[0]), Int32.Parse(stringValue.Split('/')[1]))
+        public BigRational(string stringValue)
         {
             if (!IsCorrectBigRationalString(stringValue))
-                throw new ArgumentOutOfRangeException("Incorrectly specified BigRational type in the form of a string");
+                throw new ArgumentException("Incorrectly specified BigRational type in the form of a string");
+
+            this = new BigRational(Int32.Parse(stringValue.Split('/')[0]), Int32.Parse(stringValue.Split('/')[1]));
         }
 
         public static bool IsNaN(BigRational b) => b.Numerator == 0 && b.Denominator == 0;
@@ -124,9 +126,9 @@ namespace RationalLib
 
         static bool IsCorrectBigRationalString(string rationalString)
         {
-            string[] stringComponents = rationalString.Split('/');
+            string[] stringComponents = rationalString.Trim().Split('/');
 
-            if (stringComponents.Length != 2)
+            if (stringComponents.Length > 2)
             {
                 return false;
             }

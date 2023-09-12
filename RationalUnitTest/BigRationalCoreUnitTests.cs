@@ -64,15 +64,14 @@ namespace RationalUnitTest
         }
 
         [DataTestMethod]
-        [DataRow("0/0/1", "Incorrectly specified BigRational type in the form of a string")]
-        [DataRow("l/1", "Incorrectly specified BigRational type in the form of a string")]
-        [DataRow("1/a", "Incorrectly specified BigRational type in the form of a string")]
-        public void Test_Constructor_String_Parameter_Wrong_String(string fraction, string expected)
+        [DataRow("l/1")]
+        [DataRow("1/a")]
+        [DataRow("0/0/1")]
+        public void Test_Constructor_String_Parameter_Wrong_String(string fraction)
         {
-            BigRational test = new BigRational(fraction);
+            Action test = () => new BigRational(fraction);
 
-            Assert.AreEqual(expected, test.Numerator);
-            Assert.AreEqual(expected, test.Denominator);
+            Assert.ThrowsException<ArgumentException>(test);
         }
 
         [TestMethod]

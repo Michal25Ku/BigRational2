@@ -47,7 +47,7 @@ namespace RationalLib
 
         public static BigRational Parse(string rationalString)
         {
-            string[] stringComponents = rationalString.Split('/');
+            string[] stringComponents = rationalString.Trim().Split('/');
 
             if (!IsCorrectBigRationalString(rationalString))
                 throw new ArgumentException("Incorrectly specified BigRational type in the form of a string");

@@ -324,6 +324,18 @@ namespace RationalUnitTest
         }
 
         [DataTestMethod]
+        [DataRow("1/2/2")]
+        [DataRow("0/a")]
+        [DataRow("s/6")]
+        [DataRow("s/-6s")]
+        public void Test_Parse_Throw_ArgumentException(string fraction)
+        {
+            Action test = () => BigRational.Parse(fraction);
+
+            Assert.ThrowsException<ArgumentException>(test);
+        }
+
+        [DataTestMethod]
         [DataRow("1/2", 1, 2)]
         [DataRow("0/0", 0, 0)]
         [DataRow("4/6", 2, 3)]
